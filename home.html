@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Interactive Experiences</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1c2c 0%, #4a5568 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #cbd5e0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: #cbd5e0;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-button:hover {
+            background: #5a67d8;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 640px) {
+            .grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a5568;
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Interactive Fun Zone</h1>
+        <p>Experience different ways to have fun and get fortunes!</p>
+    </header>
+
+    <main class="grid">
+        <!-- Bubble Wrap -->
+        <div class="card" onclick="location.href='index.html'">
+            <div class="card-icon">🫧</div>
+            <h2>Bubble Wrap Life Coach</h2>
+            <p>Pop virtual bubbles to your heart's content! The most satisfying stress reliever ever. jk</p>
+            <button class="card-button">Start Popping</button>
+        </div>
+
+        <!-- Fortune Cookie Insulter -->
+        <div class="card" onclick="location.href='final.html'">
+            <div class="card-icon">😈</div>
+            <h2>Fortune Cookie Insulter</h2>
+            <p>Get humorously roasted by a sassy fortune cookie. Not for the faint of heart!</p>
+            <button class="card-button">Get Roasted</button>
+        </div>
+
+        <!-- Fortune Cookies -->
+        <div class="card" onclick="location.href='fortune.html'">
+            <div class="card-icon">🥠</div>
+            <h2>Fortune Cookies</h2>
+            <p>Crack open a virtual fortune cookie and discover what destiny has in store for you.</p>
+            <button class="card-button">Read Fortune</button>
+        </div>
+
+        <!-- Ask a Question -->
+        <div class="card" onclick="location.href='question.html'">
+            <div class="card-icon">🔮</div>
+            <h2>Ask a Question</h2>
+            <p>Seek answers to your yes/no questions from the mystical digital oracle.</p>
+            <button class="card-button">Ask Now</button>
+        </div>
+    </main>
+
+    <!-- Modal for Future Use -->
+    <div class="modal" id="mainModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        function openModal(content) {
+            const modal = document.getElementById('mainModal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = content;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('mainModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('mainModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
