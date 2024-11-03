@@ -214,238 +214,239 @@ const advice = {
 
 let popCount = 0;
 let philosophicalPops = 0;
-const popSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');
+let dailyPopCount = 0;
 
 function createPopAnimation(bubble, color) {
-const numParticles = 8;
-const bubbleRect = bubble.getBoundingClientRect();
-const bubbleCenter = {
-x: bubbleRect.left + bubbleRect.width / 2,
-y: bubbleRect.top + bubbleRect.height / 2
-};
+    const numParticles = 8;
+    const bubbleRect = bubble.getBoundingClientRect();
+    const bubbleCenter = {
+        x: bubbleRect.left + bubbleRect.width / 2,
+        y: bubbleRect.top + bubbleRect.height / 2
+    };
 
-const ripple = document.createElement('div');
-ripple.className = 'ripple';
-ripple.style.width = ripple.style.height = `${bubbleRect.width * 0.8}px`;
-ripple.style.left = '10%';
-ripple.style.top = '10%';
-bubble.appendChild(ripple);
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    ripple.style.width = ripple.style.height = `${bubbleRect.width * 0.8}px`;
+    ripple.style.left = '10%';
+    ripple.style.top = '10%';
+    bubble.appendChild(ripple);
 
-setTimeout(() => ripple.remove(), 600);
+    setTimeout(() => ripple.remove(), 600);
 
-for (let i = 0; i < numParticles; i++) {
-const particle = document.createElement('div');
-particle.className = 'particle';
-particle.style.background = getComputedStyle(bubble).background;
+    for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.background = getComputedStyle(bubble).background;
 
-const angle = (i / numParticles) * 2 * Math.PI;
-const velocity = 100;
-const tx = Math.cos(angle) * velocity;
-const ty = Math.sin(angle) * velocity;
+        const angle = (i / numParticles) * 2 * Math.PI;
+        const velocity = 100;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
 
-particle.style.setProperty('--tx', `${tx}px`);
-particle.style.setProperty('--ty', `${ty}px`);
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
 
-particle.style.animation = 'particleAnimation 0.6s ease-out forwards';
-bubble.appendChild(particle);
+        particle.style.animation = 'particleAnimation 0.6s ease-out forwards';
+        bubble.appendChild(particle);
 
-setTimeout(() => particle.remove(), 600);
-}
+        setTimeout(() => particle.remove(), 600);
+    }
 }
 
 class Star {
-constructor() {
-this.element = document.createElement('div');
-this.element.className = 'star';
-this.reset();
-document.getElementById('background-stars').appendChild(this.element);
-}
+    constructor() {
+        this.element = document.createElement('div');
+        this.element.className = 'star';
+        this.reset();
+        document.getElementById('background-stars').appendChild(this.element);
+    }
 
-reset() {
-const size = Math.random() * 2 + 1;
-this.element.style.width = `${size}px`;
-this.element.style.height = `${size}px`;
-this.x = Math.random() * window.innerWidth;
-this.y = Math.random() * window.innerHeight;
-this.element.style.left = `${this.x}px`;
-this.element.style.top = `${this.y}px`;
-}
+    reset() {
+        const size = Math.random() * 2 + 1;
+        this.element.style.width = `${size}px`;
+        this.element.style.height = `${size}px`;
+        this.x = Math.random() * window.innerWidth;
+        this.y = Math.random() * window.innerHeight;
+        this.element.style.left = `${this.x}px`;
+        this.element.style.top = `${this.y}px`;
+    }
 
-move() {
-this.y += 0.5;
-if (this.y > window.innerHeight) {
-    this.reset();
-}
-this.element.style.top = `${this.y}px`;
-}
+    move() {
+        this.y += 0.5;
+        if (this.y > window.innerHeight) {
+            this.reset();
+        }
+        this.element.style.top = `${this.y}px`;
+    }
 }
 
 const stars = Array.from({ length: 100 }, () => new Star());
 
 function animateStars() {
-stars.forEach(star => star.move());
-requestAnimationFrame(animateStars);
+    stars.forEach(star => star.move());
+    requestAnimationFrame(animateStars);
 }
 animateStars();
 
 function popBubble(bubble, color) {
-if (!bubble.classList.contains('popped')) {
-createPopAnimation(bubble, color);
-bubble.classList.add('popped');
-popCount++;
-if (color === 'pink') philosophicalPops++;
+    if (!bubble.classList.contains('popped')) {
+        createPopAnimation(bubble, color);
+        bubble.classList.add('popped');
+        popCount++;
+        dailyPopCount++;
+        if (color === 'pink') philosophicalPops++;
 
-updateStats();
-showAdvice(color);
-playPopSound();
-checkAchievements();
-saveProgress();
+        updateStats();
+        showAdvice(color);
+        playPopSound();
+        checkAchievements();
+        saveProgress();
 
-// Regenerate bubble after 2 seconds
-setTimeout(() => {
-    bubble.classList.remove('popped');
-    bubble.style.background = getComputedStyle(bubble).background;
-}, 2000);
+        // Regenerate bubble after 2 seconds
+        setTimeout(() => {
+            bubble.classList.remove('popped');
+            bubble.style.background = getComputedStyle(bubble).background;
+        }, 15000);
 
-// Scroll to the quote box
-const quoteBox = document.getElementById('quoteBox');
-quoteBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
+        // Scroll to the quote box
+        const quoteBox = document.getElementById('quoteBox');
+        quoteBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
 function createBubbles() {
-const container = document.getElementById('bubbleContainer');
-const colors = ['blue', 'yellow', 'pink', 'green'];
-const totalBubbles = 48;
-const bubbles = [];
+    const container = document.getElementById('bubbleContainer');
+    const colors = ['blue', 'yellow', 'pink', 'green'];
+    const totalBubbles = 48;
+    const bubbles = [];
 
-// Create bubbles with random colors
-for (let i = 0; i < totalBubbles; i++) {
-const randomColor = colors[Math.floor(Math.random() * colors.length)];
-const bubble = document.createElement('div');
-bubble.className = `bubble ${randomColor}`;
-bubble.onclick = () => popBubble(bubble, randomColor);
-bubbles.push(bubble);
-}
+    // Create bubbles with random colors
+    for (let i = 0; i < totalBubbles; i++) {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        const bubble = document.createElement('div');
+        bubble.className = `bubble ${randomColor}`;
+        bubble.onclick = () => popBubble(bubble, randomColor);
+        bubbles.push(bubble);
+    }
 
-// Shuffle the bubbles array
-for (let i = bubbles.length - 1; i > 0; i--) {
-const j = Math.floor(Math.random() * (i + 1));
-[bubbles[i], bubbles[j]] = [bubbles[j], bubbles[i]];
-}
+    // Shuffle the bubbles array
+    for (let i = bubbles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bubbles[i], bubbles[j]] = [bubbles[j], bubbles[i]];
+    }
 
-// Append shuffled bubbles to the container
-bubbles.forEach(bubble => container.appendChild(bubble));
+    // Append shuffled bubbles to the container
+    bubbles.forEach(bubble => container.appendChild(bubble));
 }
 
 function showAdvice(color) {
-const adviceList = advice[color];
-const randomAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
+    const adviceList = advice[color];
+    const randomAdvice = adviceList[Math.floor(Math.random() * adviceList.length)];
 
-const quoteBox = document.getElementById('quoteBox');
-document.getElementById('quoteText').textContent = randomAdvice;
-quoteBox.style.display = 'block';
+    const quoteBox = document.getElementById('quoteBox');
+    document.getElementById('quoteText').textContent = randomAdvice;
+    quoteBox.style.display = 'block';
 
-setTimeout(() => {
-quoteBox.style.display = 'none';
-}, 5000); // Display for 5 seconds
+    setTimeout(() => {
+        quoteBox.style.display = 'none';
+    }, 5000); // Display for 5 seconds
 }
 
 function playPopSound() {
-    const popSound = new Audio('pop (1).mp3'); // Update the path to your audio file
+    const popSound = new Audio('pop.mp3'); // Update the path to your audio file
     popSound.currentTime = 0;
     popSound.play().catch(() => {});
 }
 
 function updateStats() {
-document.getElementById('popCount').textContent = popCount;
+    document.getElementById('popCount').textContent = popCount;
 }
 
 function checkAchievements() {
-const enthusiasmBadge = document.getElementById('enthusiast');
-const thinkerBadge = document.getElementById('thinker');
-const grandPopBadge = document.getElementById('grandPop');
+    const enthusiasmBadge = document.getElementById('enthusiast');
+    const thinkerBadge = document.getElementById('thinker');
+    const grandPopBadge = document.getElementById('grandPop');
 
-if (popCount >= 100) {
-if (!enthusiasmBadge.classList.contains('unlocked')) {
-    enthusiasmBadge.classList.add('unlocked');
-    enthusiasmBadge.textContent = 'Bubble Enthusiast (Achieved!)';
-    showNotification("Congrats! You've wasted enough time to become a Bubble Enthusiast.");
-}
-} else {
-enthusiasmBadge.textContent = `Bubble Enthusiast (${popCount}/100)`;
-}
+    if (popCount >= 100) {
+        if (!enthusiasmBadge.classList.contains('unlocked')) {
+            enthusiasmBadge.classList.add('unlocked');
+            enthusiasmBadge.textContent = 'Bubble Enthusiast (Achieved!)';
+            showNotification("Congrats! You've wasted enough time to become a Bubble Enthusiast.");
+        }
+    } else {
+        enthusiasmBadge.textContent = `Bubble Enthusiast (${popCount}/100)`;
+    }
 
-if (philosophicalPops >= 50) {
-if (!thinkerBadge.classList.contains('unlocked')) {
-    thinkerBadge.classList.add('unlocked');
-    thinkerBadge.textContent = 'Deep Thinker (Achieved!)';
-    showNotification("Wow, you've really thought deeply about popping bubbles. Impressive.");
-}
-} else {
-thinkerBadge.textContent = `Deep Thinker (${philosophicalPops}/50)`;
-}
+    if (philosophicalPops >= 50) {
+        if (!thinkerBadge.classList.contains('unlocked')) {
+            thinkerBadge.classList.add('unlocked');
+            thinkerBadge.textContent = 'Deep Thinker (Achieved!)';
+            showNotification("Wow, you've really thought deeply about popping bubbles. Impressive.");
+        }
+    } else {
+        thinkerBadge.textContent = `Deep Thinker (${philosophicalPops}/50)`;
+    }
 
-if (popCount >= 1000) {
-if (!grandPopBadge.classList.contains('unlocked')) {
-    grandPopBadge.classList.add('unlocked');
-    grandPopBadge.textContent = 'The Grand Pop (Achieved!)';
-    showNotification("You have mastered the art of pointless wisdom. Congratulations on wasting your time.");
-}
-} else {
-grandPopBadge.textContent = `The Grand Pop (${popCount}/1000)`;
-}
+    if (popCount >= 1000) {
+        if (!grandPopBadge.classList.contains('unlocked')) {
+            grandPopBadge.classList.add('unlocked');
+            grandPopBadge.textContent = 'The Grand Pop (Achieved!)';
+            showNotification("You have mastered the art of pointless wisdom. Congratulations on wasting your time.");
+        }
+    } else {
+        grandPopBadge.textContent = `The Grand Pop (${popCount}/1000)`;
+    }
 }
 
 function showNotification(message) {
-const notification = document.getElementById('notification');
-notification.textContent = message;
-notification.style.display = 'block';
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.style.display = 'block';
 
-setTimeout(() => {
-notification.style.display = 'none';
-}, 5000);
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 5000);
 }
 
 
-function loadProgress() {
-    const savedPopCount = localStorage.getItem('popCount');
-    const savedPhilosophicalPops = localStorage.getItem('philosophicalPops');
-    const savedDailyPopCount = localStorage.getItem('dailyPopCount');
+        function loadProgress() {
+            const savedPopCount = localStorage.getItem('popCount');
+            const savedPhilosophicalPops = localStorage.getItem('philosophicalPops');
+            const savedDailyPopCount = localStorage.getItem('dailyPopCount');
 
-    if (savedPopCount) {
-        popCount = parseInt(savedPopCount, 10);
-    }
+            if (savedPopCount) {
+                popCount = parseInt(savedPopCount, 10);
+            }
 
-    if (savedPhilosophicalPops) {
-        philosophicalPops = parseInt(savedPhilosophicalPops, 10);
-    }
+            if (savedPhilosophicalPops) {
+                philosophicalPops = parseInt(savedPhilosophicalPops, 10);
+            }
 
-    if (savedDailyPopCount) {
-        dailyPopCount = parseInt(savedDailyPopCount, 10);
-    }
+            if (savedDailyPopCount) {
+                dailyPopCount = parseInt(savedDailyPopCount, 10);
+            }
 
-    updateStats();
-    checkAchievements();
-}
+            updateStats();
+            checkAchievements();
+        }
 
-function saveProgress() {
-    localStorage.setItem('popCount', popCount);
-    localStorage.setItem('philosophicalPops', philosophicalPops);
-    localStorage.setItem('dailyPopCount', dailyPopCount);
-}
+        function saveProgress() {
+            localStorage.setItem('popCount', popCount);
+            localStorage.setItem('philosophicalPops', philosophicalPops);
+            localStorage.setItem('dailyPopCount', dailyPopCount);
+        }
 
-function resetDailyStatus() {
-    dailyPopCount = 0;
-    updateStats();
-    saveProgress();
-}
+        function resetDailyStatus() {
+            dailyPopCount = 0;
+            updateStats();
+            saveProgress();
+        }
 
-// Reset daily status at midnight
-const now = new Date();
-const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-const timeUntilMidnight = midnight.getTime() - now.getTime();
-setTimeout(resetDailyStatus, timeUntilMidnight);
+        // Reset daily status at midnight
+        const now = new Date();
+        const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+        const timeUntilMidnight = midnight.getTime() - now.getTime();
+        setTimeout(resetDailyStatus, timeUntilMidnight);
 
-createBubbles();
-loadProgress();
+        createBubbles();
+        loadProgress();
