@@ -1,95 +1,68 @@
 # Useless-Project
 
-# [Project Name] 🎯
+# The Honest Oracle 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Richies
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead:Rebeen Thomas George- Mar Baselios Christian College of Engineering And Technology 
+- Member 2: Saffin M Varughese - Mar Baselios Christian College of Engineering And Technology
+- Member 3: Gifty K Abraham - Mar Baselios Christian College of Engineering And Technology
 
 ### Project Description
-[2-3 lines about what your project does]
+This is a quirky, sarcastic web application that lets users waste time while popping virtual bubbles, breaking fortune cookies with roasty or motivational messages, and getting arbitrary yes/no answers to random questions. Each activity has its own set of humorous achievements to unlock.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+For those who don’t waste enough time online, there’s a serious lack of useless projects to fill this critical void.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Introducing a time-wasting suite of distractions! Bubble popping, sarcastic fortune cookies, vague yes/no answers, and achievements that roast you along the way.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Languages used: HTML, CSS, JavaScript
+Frameworks used: None, it’s intentionally simple
+Libraries used: Basic animations with JavaScript or CSS
+Tools used: VS Code, Git, Browser DevTools
 
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
-
-### Implementation
-For Software:
-# Installation
-[commands]
 
 # Run
-[commands]
+(https://rbn-tms-grg.github.io/The-Honest-Oracle/)
 
-### Project Documentation
-For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot 2024-11-03 071412](https://github.com/user-attachments/assets/7c29b175-ad9b-4904-9e02-d83873833b7b)
+This shows the homepage with options for the different useless activities.
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot 2024-11-03 071428](https://github.com/user-attachments/assets/afd77bf0-72a8-465f-9532-7b21964b7532)
+![Screenshot 2024-11-03 073715](https://github.com/user-attachments/assets/7c87a9c9-db9e-4531-9f28-1b768ea873f7)
+This captures the Bubble Wrap Coach section, showing a popped bubble and a roasty comment.
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot 2024-11-03 073845](https://github.com/user-attachments/assets/18ba08b3-88ff-4e80-9565-2f70160)
+![Screenshot 2024-11-03 071444](https://github.com/user-attachments/assets/6fe85df7-44e7-4315-b68d-87632ac6934f8ee714)
+This screenshot displays the Fortune Cookie Insulter with a roasty achievement message.
 
-# Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Screenshot 2024-11-03 071520](https://github.com/user-attachments/assets/8998e70f-a2e3-4074-be28-2ce4b0d86bb9)
+![Screenshot 2024-11-03 071531](https://github.com/user-attachments/assets/a4f08bf0-c678-4a07-aa37-e5d6a696de98)
+This screenshot displays the Fortune Cookie motivator with a roasty achievement message.
 
-For Hardware:
+![Screenshot 2024-11-03 071552](https://github.com/user-attachments/assets/cf8c7c9b-b249-4735-b59d-f3893c3b6546)
+This screenshot displays the ask a question with random answers.
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+[(https://drive.google.com/file/d/10UN4CAnmJUjwvi5QfNw6_411-9eP0t2f/view?usp=sharing)]
+*This video demonstrates the working of The Honest Oracle*
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Rebeen Thomas George- Bubble Wrap Life Coach, UI/UX
+- Saffin M Varughese - Fortune Cookie Insulter, UI/UX, Landing Page
+- Gifty K Abraham - Fortune Cookie, UI/UX
 
   ---
 Made with ❤️ by Richies at TinkerHub MBCCET Useless Projects 
