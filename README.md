@@ -1,38 +1,36 @@
 # Useless-Project
 
-# [Project Name] 🎯
+# The Honest Oracle 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Richies
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead:Rebeen Thomas George- Mar Baselios Christian College of Engineering And Technology 
+- Member 2: Saffin M Varughese - Mar Baselios Christian College of Engineering And Technology
+- Member 3: Gifty K Abraham - Mar Baselios Christian College of Engineering And Technology
 
 ### Project Description
-[2-3 lines about what your project does]
+This is a quirky, sarcastic web application that lets users waste time while popping virtual bubbles, breaking fortune cookies with roasty or motivational messages, and getting arbitrary yes/no answers to random questions. Each activity has its own set of humorous achievements to unlock.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+For those who don’t waste enough time online, there’s a serious lack of useless projects to fill this critical void.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Introducing a time-wasting suite of distractions! Bubble popping, sarcastic fortune cookies, vague yes/no answers, and achievements that roast you along the way.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+Languages used: HTML, CSS, JavaScript
+Frameworks used: None, it’s intentionally simple
+Libraries used: Basic animations with JavaScript or CSS
+Tools used: VS Code, Git, Browser DevTools
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+None (just your device and a sense of humor)
 
 ### Implementation
 For Software:
@@ -59,25 +57,6 @@ For Software:
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
 
-For Hardware:
-
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
-
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
-
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
-
-![Build](Add photos of build process here)
-*Explain the build steps*
-
-![Final](Add photo of final product here)
-*Explain the final build*
-
 ### Project Demo
 # Video
 [Add your demo video link here]
@@ -87,9 +66,9 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Rebeen Thomas George- 
+- Saffin M Varughese - 
+- Gifty K Abraham - 
 
   ---
 Made with ❤️ by Richies at TinkerHub MBCCET Useless Projects 
