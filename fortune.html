@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Cookie Jar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dd8749 0%, #e86e17 50%, #DEB887 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .floating-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+       .floating-cookie {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(202, 15, 15, 0.3);
+            border-radius: 100%;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: float 10s linear infinite;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            color: #FFF8DC;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .jar-container {
+            position: relative;
+            text-align: center;
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+            margin-bottom: 50px;
+        }
+
+        .jar {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+
+        /* Main Jar Body */
+        .jar-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(255, 255, 255, 0.2) 100%);
+            border-radius: 40px 40px 30px 30px;
+            border: 15px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            box-shadow:
+                inset 0 0 50px rgba(255, 255, 255, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Jar Lid */
+        .jar-lid {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 40px;
+            background: linear-gradient(to bottom, #A0522D, #8B4513);
+            border-radius: 10px 10px 0 0;
+            border: 5px solid rgba(139, 69, 19, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Jar Reflections */
+        .jar-reflection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.1) 20%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(255, 255, 255, 0.1) 80%,
+                    rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+        }
+
+        .jar-threads {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 5px,
+                    rgba(255, 255, 255, 0.1) 5px,
+                    rgba(255, 255, 255, 0.1) 10px);
+        }
+
+        .cookie {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            transition: all 0.3s ease;
+            background: #D2691E;
+            border-radius: 50%;
+            box-shadow:
+                inset -2px -2px 6px rgba(0, 0, 0, 0.3),
+                inset 2px 2px 6px rgba(255, 255, 255, 0.3);
+        }
+
+        .cookie::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #8B4513;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow:
+                -10px -8px 0 #8B4513,
+                10px -5px 0 #8B4513,
+                0px 10px 0 #8B4513,
+                -8px 5px 0 #8B4513;
+        }
+
+        @keyframes popOut {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-300px) scale(1.5) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(-150px) scale(1) rotate(360deg);
+            }
+        }
+
+        .popping-cookie {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            bottom: 100%;
+            transform: translateX(-50%);
+            animation: popOut 1s ease-out forwards;
+        }
+
+        .fortune-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 25px;
+            font-size: 24px;
+            color: #8B4513;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: all 0.5s ease;
+            text-align: center;
+            z-index: 1000;
+            max-width: 80%;
+        }
+
+        .fortune-message.show {
+            opacity: 1;
+        }
+
+        .get-fortune-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: #FFF8DC;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .get-fortune-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0) translateZ(0);
+            }
+
+            25% {
+                transform: rotate(-5deg) translateZ(50px);
+            }
+
+            75% {
+                transform: rotate(5deg) translateZ(50px);
+            }
+        }
+        .floating-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-cookie {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #D2691E;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(3px);
+            animation: float 15s linear infinite;
+        }
+
+        .floating-cookie::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #8B4513;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow:
+                -10px -8px 0 #8B4513,
+                10px -5px 0 #8B4513,
+                0px 10px 0 #8B4513,
+                -8px 5px 0 #8B4513;
+            filter: blur(1px);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(var(--startX), 120vh) rotate(0deg);
+            }
+            100% {
+                transform: translate(var(--endX), -20vh) rotate(360deg);
+            }
+        }
+        .cookie-count {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            color: #8B4513;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Realistic Cookie Design */
+        .jar-contents {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: rgba(210, 105, 30, 0.1);
+            border-radius: 0 0 25px 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-background" id="floatingBackground"></div>
+    <div class="cookie-count">Cookies Found: <span id="counter">0</span> 🍪</div>
+    <h1 class="title">✨ Fortune Cookie Jar ✨</h1>
+
+    <div class="jar-container">
+        <div class="jar" id="jar">
+            <div class="jar-lid"></div>
+            <div class="jar-body">
+                <div class="jar-threads"></div>
+                <div class="jar-reflection"></div>
+                <div class="jar-contents" id="jarContents"></div>
+            </div>
+        </div>
+        <button class="get-fortune-btn" onclick="getFortune()">Get Your Fortune! 🍪</button>
+    </div>
+
+    <div class="fortune-message" id="fortuneMessage"></div>
+
+    <script>
+        const fortunes = [
+            "Success and happiness are baked into your future! ✨",
+            "Sweet moments are coming your way! 🌟",
+            "Your kindness creates a recipe for joy! 💖",
+            "Life's cookies are extra sweet today! 🍪",
+            "Fortune favors the brave baker! 🌈",
+            "A batch of good luck is coming your way! 🎉",
+            "Your dreams are the perfect ingredients for success! ⭐",
+            "Today's special ingredient is happiness! 🌞",
+            "Your positive energy is the secret ingredient! 💫",
+            "Something wonderful is in the mixing bowl of life! 🎨",
+            "be a winner"
+        ];
+
+        function createCookie(x, y) {
+            const cookie = document.createElement('div');
+            cookie.className = 'cookie';
+            cookie.style.left = x + 'px';
+            cookie.style.bottom = y + 'px';
+            cookie.style.transform = `rotate(${Math.random() * 360}deg)`; // Use backticks ``
+            return cookie;
+        }
+
+        function fillJarWithCookies() {
+            const jarContents = document.getElementById('jarContents');
+            jarContents.innerHTML = '';
+            const cookieSize = 40;
+            const jarWidth = jarContents.offsetWidth - cookieSize;
+            const jarHeight = jarContents.offsetHeight - cookieSize;
+
+            for (let y = 0; y < jarHeight; y += cookieSize * 0.7) {
+                for (let x = 0; x < jarWidth; x += cookieSize * 0.7) {
+                    if (Math.random() > 0.3) { // Add some randomness to cookie placement
+                        const cookie = createCookie(x, y);
+                        jarContents.appendChild(cookie);
+                    }
+                }
+            }
+        }
+
+        let fortuneCount = 0;
+        const counterElement = document.getElementById('counter');
+
+        function createPoppingCookie() {
+            const cookie = document.createElement('div');
+            cookie.className = 'cookie popping-cookie';
+            document.querySelector('.jar-container').appendChild(cookie);
+            setTimeout(() => cookie.remove(), 1000);
+        }
+
+        function getFortune() {
+            const jar = document.getElementById('jar');
+            const fortuneMessage = document.getElementById('fortuneMessage');
+            const button = document.querySelector('.get-fortune-btn');
+
+            button.disabled = true;
+            jar.style.animation = "shake 0.8s cubic-bezier(.36,.07,.19,.97)";
+
+            setTimeout(() => {
+                jar.style.animation = "";
+                createPoppingCookie();
+
+                setTimeout(() => {
+                    fortuneMessage.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+                    fortuneMessage.classList.add('show');
+
+                    fortuneCount++;
+                    counterElement.textContent = fortuneCount;
+                    fillJarWithCookies(); // Refill jar after getting fortune
+                }, 500);
+            }, 800);
+
+            setTimeout(() => {
+                fortuneMessage.classList.remove('show');
+                button.disabled = false;
+            }, 3500);
+        }
+        function createFloatingCookies() {
+    const background = document.getElementById('floatingBackground');
+    const numberOfCookies = 15;
+
+    for (let i = 0; i < numberOfCookies; i++) {
+        const cookie = document.createElement('div');
+        cookie.className = 'floating-cookie';
+        
+        // Random starting and ending X positions
+        const startX = Math.random() * window.innerWidth;
+        const endX = startX + (Math.random() * 200 - 100); // Random drift
+
+        // Set custom properties for animation
+        cookie.style.setProperty('--startX', `${startX}px`);
+        cookie.style.setProperty('--endX', `${endX}px`);
+        
+        // Random starting position and animation delay
+        cookie.style.left = `${startX}px`;
+        cookie.style.animationDelay = `${Math.random() * 15}s`;
+
+        background.appendChild(cookie);
+    }
+}
+        // Initialize
+        createFloatingCookies();
+        fillJarWithCookies();
+    </script>
+</body>
+
+</html>
