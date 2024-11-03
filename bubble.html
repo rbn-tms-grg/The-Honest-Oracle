@@ -589,7 +589,7 @@ function popBubble(bubble, color) {
         setTimeout(() => {
             bubble.classList.remove('popped');
             bubble.style.background = getComputedStyle(bubble).background;
-        }, 2000);
+        }, 8000);
 
         // Scroll to the quote box
         const quoteBox = document.getElementById('quoteBox');
@@ -632,7 +632,7 @@ function showAdvice(color) {
 
     setTimeout(() => {
         quoteBox.style.display = 'none';
-    }, 5000); // Display for 5 seconds
+    }, 10000); // Display for 5 seconds
 }
 
 function playPopSound() {
