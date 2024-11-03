@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Cookie Insulter</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .counter {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .achievement {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(-200%);
+            background: rgba(255, 215, 0, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            color: #333;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .achievement.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .achievement-icon {
+            font-size: 1.5rem;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cookie-scene {
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .cookie {
+            width: 150px;
+            height: 80px;
+            background: #e6c78f;
+            border-radius: 100px 100px 0 0;
+            position: absolute;
+            left: 75px;
+            top: 60px;
+            transition: all 0.8s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .cookie-top {
+            transform-origin: bottom center;
+            z-index: 2;
+            background: linear-gradient(to bottom, #e6c78f, #d4b37f);
+        }
+
+        .cookie-bottom {
+            transform-origin: top center;
+            filter: brightness(0.9);
+            z-index: 1;
+            background: linear-gradient(to bottom, #d4b37f, #c4a36f);
+        }
+
+        .fortune-paper {
+            position: absolute;
+            width: 200px;
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, 50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+            z-index: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .cookie-scene.broken .cookie-top {
+            transform: rotate(-45deg) translateX(-100px) translateY(-50px);
+        }
+
+        .cookie-scene.broken .cookie-bottom {
+            transform: rotate(45deg) translateX(100px) translateY(-50px);
+        }
+
+        .cookie-scene.broken .fortune-paper {
+            transform: translate(-50%, 0);
+            opacity: 1;
+            z-index: 3;
+            transition-delay: 0.3s;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            background: #ff8585;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #resetButton {
+            background: #4ecdc4;
+            display: none;
+        }
+
+        #resetButton:hover {
+            background: #6ed7d0;
+        }
+
+        p {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cookie::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.1) 50%, transparent 52%);
+            border-radius: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div id="achievement" class="achievement">
+        <span class="achievement-icon">🏆</span>
+        <span id="achievementText"></span>
+    </div>
+    
+    <div class="container">
+        <div class="counter">
+            Cookies broken: <span id="clickCounter">0</span>
+        </div>
+        <h1>Fortune Cookie</h1>
+        <p>Click to break open your fortune cookie!</p>
+        <div class="button-container">
+            <button id="breakButton" onclick="breakCookie()">Break Cookie</button>
+            <button id="resetButton" onclick="resetCookie()">Next</button>
+        </div>
+        
+        <div class="cookie-scene" id="cookieScene">
+            <div class="cookie cookie-top"></div>
+            <div class="cookie cookie-bottom"></div>
+            <div class="fortune-paper" id="fortunePaper">
+                Your fortune awaits...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fortunes = [
+            "You will fail miserably today.",
+            "Someone is probably talking behind your back right now.",
+            "Lower your expectations.",
+            "Hard work doesn't always pay off. You're proof of that.",
+            "Good things come to those who wait… and wait… and wait.",
+            "Today is not your day, nor is tomorrow.",
+            "Your dreams are just that – dreams.",
+            "Remember: The universe is indifferent to your struggles.",
+            "You'll never really understand what you're doing with your life.",
+            "Others are probably doing better than you.",
+            "The best days are behind you.",
+            "Stop trying; failure is inevitable.",
+            "You're an inspiration… to no one.",
+            "You're on the road to mediocrity – keep going!",
+            "One step closer to absolutely nothing.",
+            "Congratulations on barely trying!",
+            "Dream big, but prepare for disappointment.",
+            "Every mistake is just another missed opportunity.",
+            "Lowering the bar, one day at a time.",
+            "Remember: even your best effort might not be enough.",
+            "Success is a myth, but thanks for trying.",
+            "This is as good as it’s going to get.",
+            "If at first you don’t succeed… you probably won’t.",
+            "Everyone else is secretly judging you.",
+            "Congratulations! You did the bare minimum.",
+            "You’re a shining example… of unrealized potential.",
+            "Sometimes you win; sometimes, well, you don't.",
+            "The finish line is farther than it looks.",
+            "You tried hard, but not hard enough.",
+            "This achievement is as pointless as your last one.",
+            "A new low, even for you!",
+            "You’ve come so far… in the wrong direction.",
+        ];
+
+        const achievements = {
+            10: "Achievement Unlocked: Successfully Wasted 10 Minutes of Your Life! 🎉",
+            25: "Achievement Unlocked: Professional Time Waster - 25 Cookies Deep! 🌟",
+            50: "Achievement Unlocked: Your Family Must Be So Proud - 50 Cookies! 🏅",
+            100: "Achievement Unlocked: Congratulations on Reaching Peak Unproductivity - 100 Cookies! 👑"
+        };
+
+        const breakButton = document.getElementById('breakButton');
+        const resetButton = document.getElementById('resetButton');
+        const clickCounter = document.getElementById('clickCounter');
+        const achievementElement = document.getElementById('achievement');
+        const achievementText = document.getElementById('achievementText');
+        let count = 0;
+
+        function showAchievement(message) {
+            achievementText.textContent = message;
+            achievementElement.classList.add('show');
+            
+            // Hide the achievement after 3 seconds
+            setTimeout(() => {
+                achievementElement.classList.remove('show');
+            }, 3000);
+        }
+
+        function checkAchievements(count) {
+            if (achievements[count]) {
+                showAchievement(achievements[count]);
+            }
+        }
+
+        function breakCookie() {
+            const cookieScene = document.getElementById('cookieScene');
+            const fortunePaper = document.getElementById('fortunePaper');
+            const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+            
+            fortunePaper.textContent = randomFortune;
+            cookieScene.classList.add('broken');
+            
+            breakButton.style.display = 'none';
+            resetButton.style.display = 'inline-block';
+
+            // Increment and update counter
+            count++;
+            clickCounter.textContent = count;
+            
+            // Check for achievements
+            checkAchievements(count);
+        }
+
+        function resetCookie() {
+            const cookieScene = document.getElementById('cookieScene');
+            const fortunePaper = document.getElementById('fortunePaper');
+            
+            cookieScene.classList.remove('broken');
+            fortunePaper.textContent = 'Your fortune awaits...';
+            
+            breakButton.style.display = 'inline-block';
+            resetButton.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
