@@ -255,6 +255,38 @@
             "This achievement is as pointless as your last one.",
             "A new low, even for you!",
             "You’ve come so far… in the wrong direction.",
+            "Brace yourself for a spectacular crash and burn.", 
+            "Oh, honey, they're definitely talking. Probably laughing at you.", 
+            "Aim low, miss low. That's your specialty.",
+             "You're living proof that effort is overrated.", 
+             "Keep waiting. Maybe one day, a miracle will happen.", 
+             "Sorry, the world doesn't revolve around your failures.", 
+             "Keep dreaming, while the rest of us are doing.", 
+             "The universe is laughing at you right now.",
+             "Lost and confused? Welcome to your permanent state of being", 
+            "You're so average, it's painful.", 
+             "Peak performance? More like peak pathetic.",
+             "Give up already. You're a natural-born loser.",
+             "You're so inspiring, you could put a snail to shame.", 
+            "Mediocrity? You've already arrived at your destination.", 
+            "Progress? More like regression.", 
+            "A standing ovation for the world's laziest achiever.", 
+            "Dream big? You can barely dream small.", 
+            "You're a walking, talking missed opportunity.",
+            "Setting new lows, one day at a time.", 
+            "Even your best effort? You mean you actually tried?", 
+            "Thanks for the laugh. Now go back to your daydream.",
+            "You've peaked. Enjoy the view from the bottom.", 
+            "Persistence? More like stubborn refusal to accept reality.", 
+            "Oh, they're not secretly judging you. They're just being honest.", 
+            "A gold medal for underachievement.", 
+            "A prime example of 'could've been, should've been.'",
+            "You're a master of mediocrity. Some days you're less mediocre than others.", 
+            "You're not even on the starting line, let alone the finish line.", 
+            "Hard work? More like barely lifting a finger.", 
+            "A masterpiece of mediocrity.", 
+            "You've outdone yourself. Again.", 
+            "You're on a one-way trip to Nowhereville."
         ];
 
         const achievements = {
@@ -271,14 +303,14 @@
         const achievementText = document.getElementById('achievementText');
         let count = 0;
 
-        function showAchievement(message) {
+        function showAchievement(message) { 
             achievementText.textContent = message;
             achievementElement.classList.add('show');
             
             // Hide the achievement after 3 seconds
             setTimeout(() => {
                 achievementElement.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         function checkAchievements(count) {
