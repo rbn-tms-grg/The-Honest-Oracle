@@ -2,6 +2,10 @@
 
 # The Honest Oracle 🎯
 # URL:https://rbn-tms-grg.github.io/The-Honest-Oracle/
+# Video
+[(https://drive.google.com/file/d/10UN4CAnmJUjwvi5QfNw6_411-9eP0t2f/view?usp=sharing)]
+*This video demonstrates the working of The Honest Oracle*
+
 
 
 ## Basic Details
